@@ -8,6 +8,8 @@ class Person:
 
 
 def create_person_list(people: list) -> list:
+    Person.people = {}
+
     person_list = []
 
     for person_data in people:
@@ -18,15 +20,13 @@ def create_person_list(people: list) -> list:
             person_list.append(person)
 
     for person_data, person in zip(people, person_list):
-        if "wife" in person_data:
-            if person_data["wife"] is None:
-                continue
-            if person_data["wife"] in Person.people:
-                person.wife = Person.people[person_data["wife"]]
-        if "husband" in person_data:
-            if person_data["husband"] is None:
-                continue
-            if person_data["husband"] in Person.people:
-                person.husband = Person.people[person_data["husband"]]
+        wife_name = person_data.get("wife")
+        husband_name = person_data.get("husband")
+
+        if wife_name and wife_name in Person.people:
+            person.wife = Person.people[wife_name]
+
+        if husband_name and husband_name in Person.people:
+            person.husband = Person.people[husband_name]
 
     return person_list
